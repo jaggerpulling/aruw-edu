@@ -27,8 +27,18 @@ using tap::communication::serial::Remote;
 
 namespace control
 {
-ControlOperatorInterface::ControlOperatorInterface(Remote &remote) : remote(remote) {}
+ControlOperatorInterface::ControlOperatorInterface(Remote& remote) : remote(remote) {}
 
 // STEP 2 (Tank Drive): Add getChassisTankLeftInput and getChassisTankRightInput function
 // definitions
+float ControlOperatorInterface::getChassisTankleftInput() {}
+float ControlOperatorInterface::getChassisTankRightInput() {}
+
+/*The functions you define should call the remote’s getChannel function.
+The left vertical switch should be used to get user input for the left tank drive function and
+the right vertical switch for the right tank drive function.*/
+
+/*Be sure to limit the values returned by the getChannel function between [-1, 1].
+Use the limitVal function defined in tap/algorithms/math_user_utils.hpp.*/
+
 }  // namespace control

@@ -31,12 +31,14 @@ namespace control
 class ControlOperatorInterface
 {
 public:
-    ControlOperatorInterface(tap::communication::serial::Remote &remote);
+    ControlOperatorInterface(tap::communication::serial::Remote& remote);
 
     // STEP 1 (Tank Drive): Add getChassisTankLeftInput and getChassisTankRightInput function
     // declarations
+    float getChassisTankleftInput();
+    float getChassisTankRightInput();
 
 private:
-    tap::communication::serial::Remote &remote;
+    tap::communication::serial::Remote& remote;
 };
 }  // namespace control
