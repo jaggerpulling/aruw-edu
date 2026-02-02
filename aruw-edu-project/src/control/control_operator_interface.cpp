@@ -25,28 +25,27 @@
 using tap::algorithms::limitVal;
 using tap::communication::serial::Remote;
 
-
 namespace control
 {
 ControlOperatorInterface::ControlOperatorInterface(Remote& remote) : remote(remote) {}
 
 // STEP 2 (Tank Drive): Add getChassisTankLeftInput and getChassisTankRightInput function
 // definitions
-float ControlOperatorInterface::getChassisTankleftInput() {
+float ControlOperatorInterface::getChassisTankleftInput()
+{
     float channel_value;
-    
-    channel_value = remote.getChannel(Remote::Channel::LEFT_VERTICAL);
-    return limitVal(channel_value, -1.0f, 1.0f);
+
+    channel_value = remote.getChannel(
+        Remote::Channel::LEFT_VERTICAL);          // Get the value of the left vertical channel
+    return limitVal(channel_value, -1.0f, 1.0f);  // Limit the value between -1.0 and 1.0
 }
 
-float ControlOperatorInterface::getChassisTankRightInput() {
-     float channel_value;
-    
+float ControlOperatorInterface::getChassisTankRightInput()
+{
+    float channel_value;
+
     channel_value = remote.getChannel(Remote::Channel::RIGHT_VERTICAL);
     return limitVal(channel_value, -1.0f, 1.0f);
 }
-
-
-
 
 }  // namespace control
