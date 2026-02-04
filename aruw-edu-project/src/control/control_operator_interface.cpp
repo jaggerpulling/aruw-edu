@@ -31,20 +31,15 @@ ControlOperatorInterface::ControlOperatorInterface(Remote& remote) : remote(remo
 
 // STEP 2 (Tank Drive): Add getChassisTankLeftInput and getChassisTankRightInput function
 // definitions
-float ControlOperatorInterface::getChassisTankleftInput()
-{
-    float channel_value;
+float ControlOperatorInterface::getChassisTankleftInput() {
 
-    channel_value = remote.getChannel(
-        Remote::Channel::LEFT_VERTICAL);          // Get the value of the left vertical channel
+    float channel_value{remote.getChannel(Remote::Channel::LEFT_VERTICAL)};          // Get the value of the left vertical channel
     return limitVal(channel_value, -1.0f, 1.0f);  // Limit the value between -1.0 and 1.0
 }
 
-float ControlOperatorInterface::getChassisTankRightInput()
-{
-    float channel_value;
+float ControlOperatorInterface::getChassisTankRightInput() {
 
-    channel_value = remote.getChannel(Remote::Channel::RIGHT_VERTICAL);
+    float channel_value{remote.getChannel(Remote::Channel::RIGHT_VERTICAL)};
     return limitVal(channel_value, -1.0f, 1.0f);
 }
 
