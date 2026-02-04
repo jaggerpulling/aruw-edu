@@ -28,39 +28,51 @@ using tap::algorithms::limitVal;
 namespace control::chassis
 {
 
-
-    
 // STEP 1 (Tank Drive): create constructor
-    ChassisSubsystem::ChassisSubsystem(Drivers& drivers, const ChassisConfig& config)
-        : Subsystem()
-        , desiredOutput{} //Receives target speed in m/s and converts to rpm for each motor within safety restrictions  (linear to rotational)
-        , pidControllers{} //takes rpm and sends voltage
-        , motors{} // communicates with motors to make wheel spin
-        
-// the desiredOutput, pidControllers and motors arrays must be constructed in the ChassisSubsystem’s constructor
+ChassisSubsystem::ChassisSubsystem(Drivers& drivers, const ChassisConfig& config)
+{
+    desiredOutput{};  // Receives target speed in m/s and converts to rpm for each motor within
+                      // safety restrictions  (linear to rotational)
+    pidControllers{};  // takes rpm and sends voltage
+    motors{};          // communicates with motors to make wheel spin
+};
+// the desiredOutput, pidControllers and motors arrays must be constructed in the ChassisSubsystem’s
+// constructor
 
 // STEP 2 (Tank Drive): initialize function
-   void ChassisSubsystem::initialize() { 
-    for (auto &motor: motors)
+void ChassisSubsystem::initialize()
+{
+    for (auto& motor : motors)
     {
         motor.initialize();
-    }
-   }
-// STEP 3 (Tank Drive): setVelocityTankDrive function
-   void ChassisSubsystem::setVelocityTankDrive(float left, float right) { //convert to rpm, add safety, add to array
-        // Convert linear speed to Raw RPM
-        float leftRawRpm{mpsToRpm(left)};
-        float rightRawRpm{mpsToRpm(right)};
-        // Limit values to safe RPM range
-        float leftRpm {limitVal(leftRawRpm, -MAX_WHEELSPEED_RPM, MAX_WHEELSPEED_RPM)};
-        float rightRpm = {limitVal(rightRawRpm, -MAX_WHEELSPEED_RPM, MAX_WHEELSPEED_RPM)};
-        // store value in array
-        desiredOutput[static_cast<int>(MotorId::LF)] = leftRpm;
-        desiredOutput[static_cast<int>(MotorId::LB)] = leftRpm;
-        desiredOutput[static_cast<int>(MotorId::RF)] = rightRpm;        
-        desiredOutput[static_cast<int>(MotorId::RB)] = rightRpm;
-   }   
-   
-   
+    };
+};
+// STEP 3 (Tank Drive): setVelocityTankDrive function {convert to rpm, add safety, add to array}
+void ChassisSubsystem::setVelocityTankDrive(float left, float right)
+{
+    // Convert linear speed to Raw RPM
+    float leftRawRpm{mpsToRpm(left)};
+    float rightRawRpm{mpsToRpm(right)};
+    // Limit values to safe RPM range
+    float leftDesiredRpm{limitVal(leftRawRpm, -MAX_WHEELSPEED_RPM, MAX_WHEELSPEED_RPM)};
+    float rightDesiredRpm = {limitVal(rightRawRpm, -MAX_WHEELSPEED_RPM, MAX_WHEELSPEED_RPM)};
+    // store value in array
+    desiredOutput[static_cast<int>(MotorId::LF)] = leftDesiredRpm;
+    desiredOutput[static_cast<int>(MotorId::LB)] = leftDesiredRpm;
+    desiredOutput[static_cast<int>(MotorId::RF)] = rightDesiredRpm;
+    desiredOutput[static_cast<int>(MotorId::RB)] = rightDesiredRpm;
+};
+
 // STEP 4 (Tank Drive): refresh function
+void ChassisSubsystem::refresh()
+{
+    Pid::update()
+        // call each pid controllers update function
+        // input is desired RPM -actual RPM
+
+        for (auto& motor : motors){motor::MotorInterface::setDesiredOutput()};
+    // call each motor setdesiredoutput function
+    // passing pid controller get value function
+};
+
 }  // namespace control::chassis
