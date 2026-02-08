@@ -64,21 +64,24 @@ namespace control::chassis
    void ChassisSubsystem::refresh() {
     //call each pid controllers update function
     //input is desired RPM -actual RPM
-        auto& pid1{pidControllers[static_cast<int>(MotorId::LF)]};
-        pid1.update(const T& input, bool externalLimitation = false)
-        auto& pid2{pidControllers[static_cast<int>(MotorId::LB)]};
-        pid2.update()
-        auto& pid3{pidControllers[static_cast<int>(MotorId::RF)]};
-        pid3.update()
-        auto& pid4{pidControllers[static_cast<int>(MotorId::RB)]};
-        pid4.update()
-    
+        for (int i; (i < static_cast<int>(MotorId::NUM_MOTORS)); i++ ) {
+        
+        //assign variables to array value
+        auto& pid{pidControllers[i]};
+        auto& motor{motors[i]};
+        
+        // get motor actual rpm
+        float motorActualRpm{motor.getShaftRPM()};
+        // subtract desired from motor actual rpm
+        float calculatedValue{(desiredOutput[static_cast<int>(MotorId::LF)] - motorActualRpm)};
 
-        for (auto &motor : motors) {
-            motor::MotorInterface::setDesiredOutput()
+        //update with value
+        pid.update(calculatedValue - motorActualRpm);
+        
+        // call each motor setDesiredOutput function passing the pidControllers getValue function
+        motor.setDesiredOutput(pid.getValue());
+
         };
-    // call each motor setdesiredoutput function
-    // passing pid controller get value function
 
    }
 
