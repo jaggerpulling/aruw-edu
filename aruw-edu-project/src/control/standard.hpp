@@ -48,9 +48,11 @@ private:
     Drivers &drivers;
 
     // STEP 1 (Tank Drive): declare ChassisSubystem
+    chassis::ChassisSubsystem chassis;
 
     // STEP 2 (Tank Drive): declare ChassisTankDriveCommand
-
+    chassis::ChassisTankDriveCommand tankDrive;
+    
     // STEP 1 (Agitator Control): declare VelocityAgitatorSubsystem
 
     // STEP 2 (Agitator Control): declare MoveIntegralCommand

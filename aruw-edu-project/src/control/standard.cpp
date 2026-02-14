@@ -33,8 +33,9 @@ using tap::motor::MotorId;
 
 namespace control
 {
-Robot::Robot(Drivers &drivers) : drivers(drivers)
+Robot::Robot(Drivers& drivers) : drivers(drivers), chassis(), tankDrive()
 // STEP 3 (Tank Drive): construct ChassisSubsystem and ChassisTankDriveCommand
+
 // STEP 3 (Agitator Control): construct VelocityAgitatorSubsystem and MoveIntegralCommand
 // STEP 8 (Agitator Control): construct HoldRepeatCommandMapping and HoldCommandMapping
 {
@@ -52,12 +53,14 @@ void Robot::initSubsystemCommands()
 void Robot::initializeSubsystems()
 {
     // STEP 4 (Tank Drive): initialize declared ChassisSubsystem
+    chassis.initialize();
     // STEP 4 (Agitator Control): initialize declared VelocityAgitatorSubsystem
 }
 
 void Robot::registerSoldierSubsystems()
 {
     // STEP 5 (Tank Drive): register declared ChassisSubsystem
+    
     // STEP 5 (Agitator Control): register declared VelocityAgitatorSubsystem
 }
 
